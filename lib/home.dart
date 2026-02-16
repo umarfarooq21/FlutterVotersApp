@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/book_a_ride.dart';
 import 'package:quiz_app/rides_page.dart';
 import 'package:quiz_app/profile_page.dart';
-
+import 'package:quiz_app/active_subscription.dart';
+import 'map_page.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
