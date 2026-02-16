@@ -126,7 +126,12 @@ class _HomeContent extends StatelessWidget {
             _BigChoiceCard(
               title: "On-Demand Ride",
               subtitle: "Tap and go—rides when you want them",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MapPage()),
+                );
+              },
             ),
 
             const SizedBox(height: 14),
