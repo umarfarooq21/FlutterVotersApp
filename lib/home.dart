@@ -85,14 +85,14 @@ class _HomeContent extends StatelessWidget {
                         //   color: Colors.red,
                         //   shape: BoxShape.circle,
                         // ),
-                        child: const Text(
-                          "0",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                        // child: const Text(
+                        //   "0",
+                        //   style: TextStyle(
+                        //     color: Colors.white,
+                        //     fontSize: 10,
+                        //     fontWeight: FontWeight.w700,
+                        //   ),
+                        // ),
                       ),
                     ),
                   ],
