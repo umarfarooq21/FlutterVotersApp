@@ -2,7 +2,7 @@ name: quiz_app
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+#publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -30,13 +30,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_maps_flutter: ^2.6.1
-  location: ^6.0.2
-#  google_fonts: ^6.2.1
+  flutter_contacts: ^1.1.7
+  permission_handler: ^11.0.1
+  sqflite: ^2.3.0
+  path: ^1.8.3
+  geolocator: ^10.1.0
+  http: ^1.6.0
+  shared_preferences: ^2.5.5
+  url_launcher: ^6.3.1
+  image_picker: ^1.1.2
+  shimmer: ^3.0.0
+  google_fonts: ^6.2.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
+  
 
 dev_dependencies:
   flutter_test:
@@ -47,8 +55,11 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "ic_launcher"
   ios: true
-  image_path: "images/icon/poole.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
+  image_path: "images/icon/app_icon.png"
+  min_sdk_android: 21 
+  remove_alpha_ios: true
+
+# android min sdk min:16, default 21
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -62,6 +73,13 @@ flutter:
   assets:
     - images/loginimage.png
     - images/logo.png
+    - images/votingImage.png
+    - images/login-bg.jpg
+    - images/account_avatar.png
+    - images/icon/app_icon.png
+    - images/icon/poole.png
+
+
   # To add assets to your application, add an assets section, like this:
 #    assets:
 #    - images/loginimage.png
