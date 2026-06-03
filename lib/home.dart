@@ -149,7 +149,12 @@ class _HomeContent extends StatelessWidget {
             // ✅ Active subscriptions small card
             _ActiveSubsCard(
               count: 0,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ActiveSubscription()),
+                );
+              },
             ),
 
             // ✅ push content up, keep bottom nav fixed
