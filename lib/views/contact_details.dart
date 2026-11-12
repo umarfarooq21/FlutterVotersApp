@@ -1,11 +1,11 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quiz_app/APIs/api_service.dart';
-import 'package:quiz_app/APIs/ResponseClasses/contact_details_steps_response.dart';
-import 'package:quiz_app/APIs/ResponseClasses/relations_list_response.dart';
-import 'package:quiz_app/APIs/Storage/auth_storage.dart';
-import 'package:quiz_app/message_template.dart';
+import 'package:quiz_app/services/api_service.dart';
+import 'package:quiz_app/models/contact_details_steps_response.dart';
+import 'package:quiz_app/models/relations_list_response.dart';
+import 'package:quiz_app/services/auth_storage.dart';
+import 'package:quiz_app/views/message_template.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ContactDetailsPage extends StatefulWidget {

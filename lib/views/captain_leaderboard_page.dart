@@ -2,10 +2,10 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quiz_app/APIs/ResponseClasses/leaderboard_response.dart';
-import 'package:quiz_app/APIs/Storage/auth_storage.dart';
-import 'package:quiz_app/APIs/api_service.dart';
-import 'package:quiz_app/captain_leaderboard_detail.dart';
+import 'package:quiz_app/models/leaderboard_response.dart';
+import 'package:quiz_app/services/auth_storage.dart';
+import 'package:quiz_app/services/api_service.dart';
+import 'package:quiz_app/views/captain_leaderboard_detail.dart';
 import 'package:shimmer/shimmer.dart';
 
 const Color _kLbBg = Color(0xFFF5F6F8);

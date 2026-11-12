@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:quiz_app/APIs/ResponseClasses/contact_details_steps_response.dart';
-import 'package:quiz_app/APIs/ResponseClasses/contacts_catwise_response.dart';
-import 'package:quiz_app/APIs/ResponseClasses/get_contacts_response.dart';
-import 'package:quiz_app/APIs/ResponseClasses/leaderboard_response.dart';
-import 'package:quiz_app/APIs/ResponseClasses/login_response.dart';
-import 'package:quiz_app/APIs/ResponseClasses/captain_detail_response.dart';
-import 'package:quiz_app/APIs/ResponseClasses/plan777_mobile_response.dart';
-import 'package:quiz_app/APIs/ResponseClasses/relations_list_response.dart';
-import 'package:quiz_app/APIs/ResponseClasses/fuzzy_search_response.dart';
-import 'package:quiz_app/APIs/ResponseClasses/voter_impact_response.dart';
+import 'package:quiz_app/models/contact_details_steps_response.dart';
+import 'package:quiz_app/models/contacts_catwise_response.dart';
+import 'package:quiz_app/models/get_contacts_response.dart';
+import 'package:quiz_app/models/leaderboard_response.dart';
+import 'package:quiz_app/models/login_response.dart';
+import 'package:quiz_app/models/captain_detail_response.dart';
+import 'package:quiz_app/models/plan777_mobile_response.dart';
+import 'package:quiz_app/models/relations_list_response.dart';
+import 'package:quiz_app/models/fuzzy_search_response.dart';
+import 'package:quiz_app/models/voter_impact_response.dart';
 
 
 class ApiService {

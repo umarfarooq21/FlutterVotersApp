@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quiz_app/APIs/api_service.dart';
-import 'package:quiz_app/APIs/ResponseClasses/contacts_catwise_response.dart';
-import 'package:quiz_app/APIs/Storage/auth_storage.dart';
+import 'package:quiz_app/services/api_service.dart';
+import 'package:quiz_app/models/contacts_catwise_response.dart';
+import 'package:quiz_app/services/auth_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// One row for the recipient picker (optional SMS number).

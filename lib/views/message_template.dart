@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quiz_app/template_detail.dart';
+import 'package:quiz_app/views/template_detail.dart';
 
 class MessageTemplatePage extends StatelessWidget {
   final String recipientName;

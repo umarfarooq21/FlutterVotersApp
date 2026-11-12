@@ -1,93 +1,76 @@
-# Flutter Modern App
+# Flutter Voters App
 
-A modern mobile application built with **Flutter** using the latest Flutter components and best UI practices. This app is designed with a clean architecture and focuses on performance, scalability, and smooth user experience.
+Mobile app for voter outreach (“Friend Banking”): contacts, personal/community impact goals, message templates, and captain leaderboards.
+
+Built with **Flutter** and **MVC + Provider** for clear separation of UI, state, and data access.
 
 ## Features
 
-- 🚀 Built with latest Flutter components
-- 📱 Cross-platform support (iOS & Android)
-- 🎨 Modern and clean UI design
-- ⚡ High performance and smooth animations
-- 🌙 Light and Dark Mode support
-- 📦 Modular and scalable structure
-- 🔄 Responsive layouts for all screen sizes
-
-## Tech Stack
-
-- Flutter (Latest Stable Version)
-- Dart
-- Material 3 Design System
-- Flutter Widgets (latest UI components)
-- State Management (Provider / Riverpod / Bloc - based on your usage)
+- Login with persisted session
+- Impact dashboard (personal goal + community Plan 777)
+- Contacts list with search, categories, and detail flows
+- Message templates
+- Captain leaderboard
+- Profile / account / about / terms
 
 ## Architecture
 
-This project follows a clean and simple architecture pattern for better code management.
+**MVC + Provider**
 
-### Structure Flow
+| Layer | Location | Role |
+|--------|----------|------|
+| **Model** | `lib/models/` | API response DTOs and UI models (e.g. `UiContact`) |
+| **View** | `lib/views/` | Screens and widgets (UI only for core flows) |
+| **Controller** | `lib/controllers/` | `ChangeNotifier`s with business/async logic |
+| **Service** | `lib/services/` | `ApiService`, `AuthStorage`, helpers |
 
-```
-UI (Widgets)
-   ↓
-State Management
-   ↓
-Business Logic
-   ↓
-Data Layer
-```
+Core flows fully on Provider:
 
-## Project Structure
+- `AuthController` — login / logout / session
+- `HomeController` — bottom tabs + profile sheet
+- `ContactsController` — contacts list, search, refresh
+- `ImpactController` — personal goal, voter impact, Plan 777
+
+Other screens live under `lib/views/` and still call services directly; they can be moved onto controllers later.
 
 ```
 lib/
-│
-├── screens/
-├── widgets/
-├── models/
-├── services/
-├── providers/
-├── utils/
-├── constants/
-└── main.dart
+  main.dart                 # MultiProvider + MaterialApp
+  controllers/
+  models/
+  views/
+  services/
 ```
 
-## Key Highlights
+## Tech stack
 
-- Uses latest Flutter widgets and updates
-- Clean and reusable components
-- Optimized for performance
-- Easy to maintain and scale
-- Follows Flutter best practices
-- Responsive UI for all devices
+- Flutter / Dart
+- Provider (state management)
+- `http`, `shared_preferences`, `sqflite`
+- `flutter_contacts`, `geolocator`, `url_launcher`, `image_picker`, `shimmer`, `google_fonts`
 
-## Requirements
+## Getting started
 
-- Flutter SDK (Latest Stable)
-- Dart SDK
-- Android Studio / VS Code
-- Xcode (for iOS build)
-
-## Getting Started
-
-### 1. Clone Repository
+### 1. Clone
 
 ```bash
-git clone https://github.com/yourusername/your-repository.git
+git clone https://github.com/umarfarooq21/FlutterVotersApp.git
+cd FlutterVotersApp
 ```
 
-### 2. Install Dependencies
+### 2. Install dependencies
 
 ```bash
 flutter pub get
 ```
 
-### 3. Run App
+### 3. Run
 
 ```bash
 flutter run
 ```
 
-## Build Release
+## Build release
 
 ### Android
 
@@ -101,24 +84,7 @@ flutter build apk --release
 flutter build ios --release
 ```
 
-## Future Improvements
+## Requirements
 
-- API Integration
-- Local Database (Hive / SQLite)
-- Authentication System
-- Push Notifications
-- Unit & Widget Testing
-- CI/CD Integration
-- App Performance Optimization
-
-## Screenshots
-
-Add your app screenshots here.
-
-## License
-
-This project is open-source and available under the MIT License.
-
-## Author
-
-Developed using Flutter with the latest framework updates and modern UI components.
+- Flutter SDK (see `environment.sdk` in `pubspec.yaml`)
+- Android Studio / Xcode as needed for your target

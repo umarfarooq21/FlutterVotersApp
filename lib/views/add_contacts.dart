@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:quiz_app/APIs/ResponseClasses/fuzzy_search_response.dart';
-import 'package:quiz_app/APIs/Storage/auth_storage.dart';
-import 'package:quiz_app/APIs/api_service.dart';
-import 'package:quiz_app/contact_name_format.dart';
+import 'package:quiz_app/models/fuzzy_search_response.dart';
+import 'package:quiz_app/services/auth_storage.dart';
+import 'package:quiz_app/services/api_service.dart';
+import 'package:quiz_app/services/contact_name_format.dart';
 import 'package:shimmer/shimmer.dart';
 
 /// Primary blue aligned with contacts / app chrome.

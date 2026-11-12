@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:quiz_app/APIs/ResponseClasses/plan777_mobile_response.dart';
-import 'package:quiz_app/APIs/Storage/auth_storage.dart';
-import 'package:quiz_app/APIs/api_service.dart';
-import 'package:quiz_app/captain_leaderboard_page.dart';
-import 'package:quiz_app/community_goal_page.dart';
-import 'package:quiz_app/your_focus_page.dart';
+import 'package:provider/provider.dart';
+import 'package:quiz_app/controllers/impact_controller.dart';
+import 'package:quiz_app/views/captain_leaderboard_page.dart';
+import 'package:quiz_app/views/community_goal_page.dart';
+import 'package:quiz_app/views/your_focus_page.dart';
 import 'package:shimmer/shimmer.dart';
 
 String _formatWithCommas(int value) {
@@ -35,184 +33,23 @@ class ImpactPage extends StatefulWidget {
 }
 
 class _ImpactPageState extends State<ImpactPage> {
-  static const _kPersonalGoalPrefKey = 'impact.personal_goal_voters';
-
-  int _personalGoal = 10;
-  int _confirmedVoters = 0;
-  bool _isVoterImpactLoading = true;
-  String? _voterImpactError;
-
-  Plan777MobileResponse? _plan777;
-  bool _isPlan777Loading = true;
-  String? _plan777Error;
-
   @override
   void initState() {
     super.initState();
-    _bootstrap();
-  }
-
-  Future<void> _bootstrap() async {
-    await _loadGoal();
-    if (!mounted) return;
-    await Future.wait([_loadVoterImpact(), _loadPlan777()]);
-  }
-
-  Future<void> _loadGoal() async {
-    final prefs = await SharedPreferences.getInstance();
-    final stored = prefs.getInt(_kPersonalGoalPrefKey);
-    if (!mounted) return;
-    if (stored != null && stored > 0) {
-      setState(() => _personalGoal = stored);
-    }
-  }
-
-  Future<void> _saveGoal(int goal) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_kPersonalGoalPrefKey, goal);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ImpactController>().bootstrap();
+    });
   }
 
   Future<void> _onTapSetGoal() async {
+    final impact = context.read<ImpactController>();
     final next = await _showSetGoalDialog(
       context: context,
-      initialValue: _personalGoal,
+      initialValue: impact.personalGoal,
       quickValues: const [10, 25, 50, 100],
     );
     if (!mounted || next == null) return;
-    setState(() => _personalGoal = next);
-    await _saveGoal(next);
-  }
-
-  Future<void> _loadVoterImpact() async {
-    if (!mounted) return;
-    setState(() {
-      _isVoterImpactLoading = true;
-      _voterImpactError = null;
-    });
-
-    try {
-      final loggedIn = await AuthStorage.hasSession();
-      if (!loggedIn) {
-        if (!mounted) return;
-        setState(() {
-          _isVoterImpactLoading = false;
-          _confirmedVoters = 0;
-          _voterImpactError = 'Sign in to see your goal.';
-        });
-        return;
-      }
-
-      final userId = await AuthStorage.getUserId();
-      final token = await AuthStorage.getAccessToken();
-      if (userId == null || token == null || userId.isEmpty || token.isEmpty) {
-        if (!mounted) return;
-        setState(() {
-          _isVoterImpactLoading = false;
-          _confirmedVoters = 0;
-          _voterImpactError = 'Sign in to see your goal.';
-        });
-        return;
-      }
-
-      final response = await ApiService.voterImpact(
-        userId: userId,
-        token: token,
-      );
-      if (!mounted) return;
-
-      if (response == null) {
-        setState(() {
-          _isVoterImpactLoading = false;
-          _voterImpactError = 'Could not load your goal.';
-        });
-        return;
-      }
-
-      final serverGoal = response.goal;
-      if (serverGoal > 0) {
-        await _saveGoal(serverGoal);
-      }
-
-      setState(() {
-        if (serverGoal > 0) {
-          _personalGoal = serverGoal;
-        }
-        _confirmedVoters = response.confirmedVoters;
-        _isVoterImpactLoading = false;
-        _voterImpactError = null;
-      });
-    } catch (e, st) {
-      debugPrint('_loadVoterImpact: $e\n$st');
-      if (!mounted) return;
-      setState(() {
-        _isVoterImpactLoading = false;
-        _voterImpactError = 'Could not load your goal.';
-      });
-    }
-  }
-
-  Future<void> _loadPlan777() async {
-    if (!mounted) return;
-    setState(() {
-      _isPlan777Loading = true;
-      _plan777Error = null;
-    });
-
-    try {
-      final loggedIn = await AuthStorage.hasSession();
-      if (!loggedIn) {
-        if (!mounted) return;
-        setState(() {
-          _isPlan777Loading = false;
-          _plan777 = null;
-          _plan777Error = 'Sign in to view the community goal.';
-        });
-        return;
-      }
-
-      final userId = await AuthStorage.getUserId();
-      final token = await AuthStorage.getAccessToken();
-      if (userId == null || token == null || userId.isEmpty || token.isEmpty) {
-        if (!mounted) return;
-        setState(() {
-          _isPlan777Loading = false;
-          _plan777 = null;
-          _plan777Error = 'Sign in to view the community goal.';
-        });
-        return;
-      }
-
-      final res = await ApiService.getPlan777Mobile(
-        userId: userId,
-        token: token,
-      );
-      if (!mounted) return;
-
-      if (res == null) {
-        setState(() {
-          _isPlan777Loading = false;
-          if (_plan777 == null) {
-            _plan777Error = 'Could not load community goal.';
-          }
-        });
-        return;
-      }
-
-      setState(() {
-        _plan777 = res;
-        _isPlan777Loading = false;
-        _plan777Error = null;
-      });
-    } catch (e, st) {
-      debugPrint('_loadPlan777: $e\n$st');
-      if (!mounted) return;
-      setState(() {
-        _isPlan777Loading = false;
-        if (_plan777 == null) {
-          _plan777Error = 'Could not load community goal.';
-        }
-      });
-    }
+    await impact.saveGoal(next);
   }
 
   Future<int?> _showSetGoalDialog({
@@ -262,18 +99,20 @@ class _ImpactPageState extends State<ImpactPage> {
 
   @override
   Widget build(BuildContext context) {
+    final impact = context.watch<ImpactController>();
+
     // Values are hard-coded to match the provided design mock.
     const focusDone = 2;
     const focusTotal = 5;
     const focusProgress = 0.40;
 
-    final personalDone = _confirmedVoters;
-    final personalTotal = _personalGoal;
+    final personalDone = impact.confirmedVoters;
+    final personalTotal = impact.personalGoal;
     final personalProgress = personalTotal <= 0
         ? 0.0
         : (personalDone / personalTotal).clamp(0.0, 1.0);
 
-    final plan = _plan777;
+    final plan = impact.plan777;
     final communityDone = plan?.voters.completed ?? 0;
     final communityTotal = plan?.voters.total ?? 0;
     final communityProgress = plan?.gaugeArcFraction ?? 0.0;
@@ -326,7 +165,7 @@ class _ImpactPageState extends State<ImpactPage> {
                 },
               ),
               const SizedBox(height: 16),
-              if (_isVoterImpactLoading)
+              if (impact.isVoterImpactLoading)
                 const _PersonalGoalCardShimmer()
               else
                 _ProgressCard(
@@ -336,8 +175,8 @@ class _ImpactPageState extends State<ImpactPage> {
                     iconColor: Color(0xFF2563EB),
                   ),
                   title: "Personal Goal",
-                  subtitle: _voterImpactError != null
-                      ? _voterImpactError!
+                  subtitle: impact.voterImpactError != null
+                      ? impact.voterImpactError!
                       : "Goal: Confirm $personalTotal voters",
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -391,7 +230,7 @@ class _ImpactPageState extends State<ImpactPage> {
                 },
               ),
               const SizedBox(height: 14),
-              if (_isPlan777Loading && plan == null)
+              if (impact.isPlan777Loading && plan == null)
                 const _PersonalGoalCardShimmer()
               else
                 _ProgressCard(
@@ -401,8 +240,8 @@ class _ImpactPageState extends State<ImpactPage> {
                     iconColor: Color(0xFF7C3AED),
                   ),
                   title: "Community Goal",
-                  subtitle: _plan777Error != null
-                      ? _plan777Error!
+                  subtitle: impact.plan777Error != null
+                      ? impact.plan777Error!
                       : "Increasing Muslim Voter Turnout",
                   trailing: _Pill(
                     text: communityTotal > 0
